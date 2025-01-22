@@ -1,0 +1,2 @@
+// export const supabaseUrl='https://zwliasmuvrnjduiekiol.supabase.co';
+// export const supabaseAnnonKey='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3bGlhc211dnJuamR1aWVraW9sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY1MjA0NTgsImV4cCI6MjA1MjA5NjQ1OH0.F5IflLRSxpZFQB0qjDPkHxPvzxOzwJ8emRJSbK4_DQA';

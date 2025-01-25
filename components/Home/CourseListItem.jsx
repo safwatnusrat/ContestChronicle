@@ -8,7 +8,7 @@ const CourseListItem = ({course}) => {
     <TouchableOpacity 
     onPress={() => router.push({
         pathname: '/course_details',
-        params: course 
+        params: {course: JSON.stringify(course)}
       })}
       
     style={styles.container}>

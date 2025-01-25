@@ -7,7 +7,9 @@ import AboutCourse from '../../components/CourseDetails/AboutCourse';
 import InstructorInfor from '../../components/CourseDetails/InstructorInfor';
 
 const index = () => {
-    const course=useLocalSearchParams();
+    const params=useLocalSearchParams();
+    const course=JSON.parse(params.course);
+
   return (
     <View>
         <ScrollView>

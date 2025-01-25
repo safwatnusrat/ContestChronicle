@@ -2,8 +2,6 @@ import { View, Text } from 'react-native'
 import React from 'react'
 
 const InstructorInfor = ({course}) => {
-  const instructor=course.instructor[0]
-  console.log(typeof course.instructor)
   return (
     <View style={{
         paddingHorizontal:20,
@@ -12,7 +10,7 @@ const InstructorInfor = ({course}) => {
         alignItems:'center',
         borderWidth:1,
         borderRadius:10,
-        padding:20,
+        padding:16,
         backgroundColor:'white',
         marginHorizontal:20,
         borderColor:'white'
@@ -25,7 +23,7 @@ const InstructorInfor = ({course}) => {
       <Text style={{
         fontFamily:'outfit-medium',
         fontSize:20
-      }}>{JSON.stringify(course.instructor)}</Text>
+      }}>{course?.instructor?.name}</Text>
 
     </View>
    // console.log(JSON.stringify(course.instructor))

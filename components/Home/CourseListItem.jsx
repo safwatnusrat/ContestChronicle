@@ -1,9 +1,17 @@
-import { View, Text ,Image,StyleSheet} from 'react-native'
+import { View, Text ,Image,StyleSheet, TouchableOpacity} from 'react-native'
 import React from 'react'
+import { useRouter } from 'expo-router'
 
 const CourseListItem = ({course}) => {
+    const router=useRouter();
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+    onPress={() => router.push({
+        pathname: '/course_details',
+        params: course 
+      })}
+      
+    style={styles.container}>
      <Image source={{uri:course?.imageUrl}} 
      style={{
         width:150,
@@ -21,7 +29,7 @@ const CourseListItem = ({course}) => {
         fontSize:14
      }}>{course?.duration}</Text>
     
-    </View>
+    </TouchableOpacity>
   )
 }
 

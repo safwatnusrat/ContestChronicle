@@ -19,9 +19,10 @@ const CourseListByCategory = () => {
     setCourseList([]);
     const q=query(collection(db,'courses'),where('category','==',category));
     const querySnapshot= await getDocs(q);
+    //console.log()
 
     querySnapshot.forEach(doc=>{
-      //console.log(doc.data());
+      console.log(doc.data());
       setCourseList(courseList=>[...courseList,doc.data()]);
     })
     setloader(false);

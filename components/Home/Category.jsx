@@ -1,10 +1,11 @@
-import { View, Text ,FlatList,Image,StyleSheet} from 'react-native'
+import { View, Text ,FlatList,Image,StyleSheet, TouchableOpacity} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs } from "firebase/firestore";
 import {db} from './../../lib/firebase'
 
-const Category = () => {
+const Category = ({category}) => {
     const [categoryList,setCategoryList]=useState([]);
+    const [selectedCategory,setSelectedCategory]=useState('Machine Learning');
     useEffect(()=>{
         getCategories();
     },[])
@@ -29,10 +30,17 @@ const Category = () => {
       data={categoryList}
       numColumns={4}
       renderItem={({item,index})=>(
-        <View style={{
+        <TouchableOpacity 
+        onPress={()=>{
+          setSelectedCategory(item.name);
+          category(item.name);
+        }}
+        style={{
             flex:1
-        }}>
-            <View style={styles.container}>
+        }}
+        >
+            <View style={[styles.container,
+            selectedCategory==item.name && styles.selectedItemCategory]}>
                <Image source={{uri:item?.imageUrl}}
                style={{
                  width:40,
@@ -45,7 +53,7 @@ const Category = () => {
                 textAlign:'center',
                 fontFamily:'outfit-regular'
             }}>{item?.name}</Text>
-        </View>
+        </TouchableOpacity>
       )}/>
     </View>
   )
@@ -56,10 +64,15 @@ export default Category
 const styles=StyleSheet.create({
     container:{
       backgroundColor:'#fff1c9',
+      borderColor:'#fff1c9',
       padding:15,
       alignItems:'center',
       borderWidth:1,
       borderRadius:15,
      margin:5
+    },
+    selectedItemCategory:{
+      backgroundColor:'#0096C7',
+      borderColor:'#0096C7'
     }
 })

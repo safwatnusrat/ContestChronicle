@@ -1,6 +1,7 @@
 import { View, Text,Image } from 'react-native'
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MarkFav from '../MarkFav';
 
 const CourseInfo = ({course}) => {
   return (
@@ -31,7 +32,7 @@ const CourseInfo = ({course}) => {
                 fontSize:16,
                 fontFamily:'outfit-medium'
             }}>Add to favourite</Text>
-            <Ionicons name="heart-outline" size={24} color='black' />
+            <MarkFav course={course}/>
         </View>
       </View>
     </View>

@@ -1,57 +1,91 @@
-import { View, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
-import Shared from './../shared/Shared';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { View, Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import {doc,updateDoc,arrayUnion,arrayRemove,collection,query,where,getDocs} from "firebase/firestore";
+import { db } from "../lib/firebase";
+import { getAuth } from "firebase/auth";
 
 const MarkFav = ({ course }) => {
-  const [favList, setFavList] = useState([]);
-  const db = getFirestore();
-  const userId = 'USER_DOCUMENT_ID';  // Replace with actual user document ID
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const auth = getAuth();
+  const userEmail = auth.currentUser?.email;
 
   useEffect(() => {
-    GetFav();
+    checkFavoriteStatus();
   }, []);
 
-  const GetFav = async () => {
+  const checkFavoriteStatus = async () => {
+    setIsLoading(true);
     try {
-      const userDocRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userDocRef);
+      const coursesRef = collection(db, "courses");
+      const q = query(coursesRef, where("id", "==", course.id));
+      const querySnapshot = await getDocs(q);
 
-      if (userSnap.exists()) {
-        const userData = userSnap.data();
-        const favs = await Shared.GetFavList(userData);
-        setFavList(favs?.favourites || []);
-        console.log(favs);
-      } else {
-        console.log('No such user document!');
+      if (!querySnapshot.empty) {
+        const courseDoc = querySnapshot.docs[0];
+        const favorites = courseDoc.data().favourites || [];
+        setIsFavorite(favorites.includes(userEmail));
       }
     } catch (error) {
-      console.error('Error fetching favorite list:', error);
+      console.error("Error checking favorite status:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const AddToFav = async () => {
+  const toggleFavorite = async () => {
+    setIsLoading(true);
     try {
-      const updatedFavList = [...favList, course.id];
-      await Shared.updateFav(userId, updatedFavList);
-      setFavList(updatedFavList);  // Update state to reflect the change
+      const coursesRef = collection(db, "courses");
+      const q = query(coursesRef, where("id", "==", course.id));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        const courseDoc = querySnapshot.docs[0];
+        const courseRef = doc(db, "courses", courseDoc.id);
+        const courseData = courseDoc.data();
+
+        if (!courseData.favourites) {
+          await updateDoc(courseRef, {
+            favourites: [],
+          });
+        }
+
+        if (isFavorite) {
+          await updateDoc(courseRef, {
+            favourites: arrayRemove(userEmail),
+          });
+        } else {
+          await updateDoc(courseRef, {
+            favourites: arrayUnion(userEmail),
+          });
+        }
+
+        setIsFavorite(!isFavorite);
+      }
     } catch (error) {
-      console.error('Error updating favorite list:', error);
+      console.error("Error updating favorite:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <View>
-      {favList.includes(course.id) ? (
-        <Pressable>
-          <Ionicons name="heart" size={24} color="red" />
-        </Pressable>
-      ) : (
-        <Pressable onPress={AddToFav}>
-          <Ionicons name="heart-outline" size={24} color="black" />
-        </Pressable>
-      )}
+      <Pressable onPress={toggleFavorite} disabled={isLoading}>
+        <Ionicons
+          name={
+            isLoading
+              ? "hourglass-outline"
+              : isFavorite
+              ? "heart"
+              : "heart-outline"
+          }
+          size={24}
+          color={isLoading ? "gray" : isFavorite ? "red" : "black"}
+        />
+      </Pressable>
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TextInput, StyleSheet, TouchableOpacity, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ScrollView } from 'react-native'
 import { Picker } from '@react-native-picker/picker';
@@ -12,6 +12,7 @@ const index = () => {
   const [level, setLevel] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
+  const [images,setImages]=useState();
 
   useEffect(() => {
     getCategories();
@@ -28,11 +29,12 @@ const index = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
+      aspect:[4,3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      console.log(result);
+      setImages(result.assets[0].uri)
     } else {
       alert('You did not select any image.');
     }
@@ -57,15 +59,32 @@ const index = () => {
         fontFamily: 'outfit-medium',
         fontSize: 20
       }}>Add New Course</Text>
-      <Image source={require('./../../assets/images/addimage.jpg')}
-        style={{
-          width: 100,
-          height: 100,
-          borderRadius: 15,
-          borderWidth: 1,
-          borderColor: '#808080'
-        }}
-      />
+     <Pressable onPress={imagePicker}>
+  {!images ? (
+    <Image
+      source={require('./../../assets/images/addimage.jpg')}
+      style={{
+        width: 100,
+        height: 100,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#808080',
+      }}
+    />
+  ) : (
+    <Image
+      source={{ uri: images }}
+      style={{
+        width: 100,
+        height: 100,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#808080',
+      }}
+    />
+  )}
+</Pressable>
+
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Course Name *</Text>
         <TextInput style={styles.input}

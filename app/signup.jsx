@@ -1,4 +1,4 @@
-import {Text,StyleSheet,View, Pressable, Alert} from 'react-native'
+import {Text,StyleSheet,View, Pressable, Alert,KeyboardAvoidingView} from 'react-native'
 import React, { useRef, useState } from 'react'
 import ScreenWrapper from '../components/ScreenWrapper'
 import { StatusBar } from 'expo-status-bar'
@@ -102,6 +102,11 @@ const signup=()=> {
     };
 
     return (
+      <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+      >
+
         <ScreenWrapper>
           <StatusBar style='dark'/>
           <View style={styles.container}>
@@ -145,6 +150,7 @@ const signup=()=> {
             </View>
           </View>
         </ScreenWrapper>
+        </KeyboardAvoidingView>
     )
 }
 

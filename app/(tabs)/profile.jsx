@@ -56,8 +56,8 @@ const profile = () => {
     if(Menu.name === 'LogOut'){
       try {
         const auth = getAuth();
-        await signOut(auth); // Properly signs the user out
-        router.replace('/welcome'); // Replace with your welcome page route
+        await signOut(auth); 
+        router.replace('/welcome'); 
       } catch (error) {
         console.error('Error during logout:', error);
       }

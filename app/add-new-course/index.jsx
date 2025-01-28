@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getDocs, collection, addDoc } from 'firebase/firestore';
+import { getDocs, collection, addDoc, getFirestore, doc, getDoc } from 'firebase/firestore';
 import { db } from './../../lib/firebase';
 import * as ImagePicker from 'expo-image-picker';
 import { ToastAndroid } from 'react-native';
@@ -115,7 +115,7 @@ const index = () => {
       id: Date.now().toString(),
       instructor: {
         email: currentUser.email,
-        name: currentUser.name,
+        name: currentUser.displayName,
       },
     };
 

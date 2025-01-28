@@ -34,7 +34,7 @@ const login=()=> {
                 );
             }
             else{
-                router.push('/dashboard');
+                router.push('/home');
             }
 
         }

@@ -6,9 +6,10 @@ import { getDocs, collection } from 'firebase/firestore';
 import { db } from './../../lib/firebase'
 import Category from '../../components/Home/Category';
 import * as ImagePicker from 'expo-image-picker';
+import { ToastAndroid } from 'react-native';
 
 const index = () => {
-  const [formData, setFormData] = useState();
+  const [formData, setFormData] = useState({});
   const [level, setLevel] = useState();
   const [categoryList, setCategoryList] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState();
@@ -49,7 +50,10 @@ const index = () => {
     }))
   }
   const onSubmit=()=>{
-    console.log(formData);
+    if(Object.keys(formData).length!=5){
+      ToastAndroid.show("Fill all the fields",ToastAndroid.SHORT)
+      return ;
+    }
   }
   return (
     <ScrollView style={{

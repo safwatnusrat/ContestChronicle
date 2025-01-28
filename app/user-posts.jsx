@@ -1,6 +1,6 @@
 import { View, Text, FlatList,Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { getAuth } from "firebase/auth";
 import CourseListItem from "./../components/Home/CourseListItem";
@@ -22,7 +22,7 @@ const userposts = () => {
         const querySnapshot = await getDocs(q);
         const posts = [];
         querySnapshot.forEach((doc) => {
-          posts.push(doc.data());
+          posts.push({ ...doc.data(), id: doc.id });
         });
         setUserCourses(posts);
       } catch (error) {
@@ -33,10 +33,10 @@ const userposts = () => {
     };
     GetUserCourse();
   }, [currentUser]);
-  const deleteCourse = async (docId) => {
-      await deleteDoc(doc(db, "courses", docId)); 
-      setUserCourses();
-  };
+//   const deleteCourse = async (docId) => {
+//       await deleteDoc(doc(db, "courses", docId)); 
+//       setUserCourses();
+//   };
 
   const onDeleteCourse = (docId) => {
     Alert.alert(
@@ -50,9 +50,11 @@ const userposts = () => {
         },
         {
           text: "Delete",
-          onPress: () => {
-            deleteCourse(docId);
-            // Add deletion logic here
+          onPress:async () => {
+            await deleteDoc(doc(db, "courses", docId)); 
+            setUserCourses((prevCourses) =>
+                prevCourses.filter((course) => course.id !== docId)
+              );
           },
         },
       ]);

@@ -115,7 +115,7 @@ const index = () => {
       id: Date.now().toString(),
       instructor: {
         email: currentUser.email,
-        name: currentUser.displayName,
+        name: user.name,
       },
     };
 

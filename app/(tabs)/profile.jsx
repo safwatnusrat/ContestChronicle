@@ -46,6 +46,12 @@ const profile = () => {
     },
     {
       id:3,
+      name:'My Posts',
+      icon:"bookmark",
+      path:'/user-posts'
+    },
+    {
+      id:4,
       name:'LogOut',
       icon:"log-out",
       path:'logout'

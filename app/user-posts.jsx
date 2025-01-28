@@ -1,6 +1,6 @@
 import { View, Text, FlatList,Alert } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, deleteDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { getAuth } from "firebase/auth";
 import CourseListItem from "./../components/Home/CourseListItem";
@@ -34,7 +34,7 @@ const userposts = () => {
     GetUserCourse();
   }, [currentUser]);
   const deleteCourse = async (docId) => {
-      await deleteDoc(doc(db, "courses", docId)); // Delete the document from Firestore
+      await deleteDoc(doc(db, "courses", docId)); 
       setUserCourses();
   };
 

@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import {useFonts} from 'expo-font';
+import { StatusBar } from "react-native";
 
 export default function RootLayout() {
 

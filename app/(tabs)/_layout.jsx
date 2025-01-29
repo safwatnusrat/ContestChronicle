@@ -2,7 +2,6 @@ import { View, Text} from 'react-native'
 import { Tabs } from 'expo-router'
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons';
-
 const TabLayout= () => {
   return (
     <Tabs

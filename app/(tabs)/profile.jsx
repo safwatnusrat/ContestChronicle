@@ -4,6 +4,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { getAuth,signOut } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import { useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 const profile = () => {
    const [user,setUser]=useState();
    useEffect(() => {
@@ -77,6 +78,7 @@ const profile = () => {
       padding:20,
       marginTop:20
     }}>
+        <StatusBar style='dark'/>
       <Text style={{
         fontFamily:'outfit-regular',
         fontSize:30

@@ -5,6 +5,7 @@ import Sliders from '../../components/Home/Sliders'
 import CourseListByCategory from '../../components/Home/CourseListByCategory'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Link } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 
 const home = () => {
   return (
@@ -12,6 +13,7 @@ const home = () => {
         padding:20,
         marginTop:10
     }}>
+        <StatusBar style='dark'/>
         <Header/>
         <Sliders/>
         <CourseListByCategory/>

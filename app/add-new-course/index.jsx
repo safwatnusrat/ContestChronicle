@@ -9,6 +9,7 @@ import { ScrollView } from 'react-native'
 import { getAuth } from 'firebase/auth';
 import { Picker } from '@react-native-picker/picker';
 import Category from '../../components/Home/Category';
+ 
 const index = () => {
   const [formData, setFormData] = useState({});
   const [level, setLevel] = useState();

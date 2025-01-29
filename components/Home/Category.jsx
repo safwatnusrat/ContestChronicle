@@ -2,6 +2,7 @@ import { View, Text ,FlatList,Image,StyleSheet, TouchableOpacity} from 'react-na
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs } from "firebase/firestore";
 import {db} from './../../lib/firebase'
+import { StatusBar } from 'expo-status-bar';
 
 const Category = ({category}) => {
     const [categoryList,setCategoryList]=useState([]);
@@ -22,6 +23,7 @@ const Category = ({category}) => {
     <View style={{
         marginTop:20
     }}>
+        <StatusBar style='dark'/>
       <Text style={{
         fontFamily:'outfit-medium',
         fontSize:20

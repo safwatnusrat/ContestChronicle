@@ -1,6 +1,6 @@
 import { View, Text, FlatList, Image, ActivityIndicator, StyleSheet } from "react-native";
 import React, { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, query, where, getDocs,onSnapshot } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import { getAuth } from "firebase/auth";
 
@@ -11,24 +11,33 @@ const Favourite = () => {
   const userEmail = auth.currentUser?.email;
 
   useEffect(() => {
-    fetchFavoriteCourses();
-  }, []);
+    if (!userEmail) return;
 
-  const fetchFavoriteCourses = async () => {
-    setLoading(true);
-    try {
-      const coursesRef = collection(db, "courses");
-      const q = query(coursesRef, where("favourites", "array-contains", userEmail));
-      const querySnapshot = await getDocs(q);
-      
-      const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setFavoriteCourses(courses);
-    } catch (error) {
-      console.error("Error fetching favorite courses:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const coursesRef = collection(db, "courses");
+    const q = query(
+      coursesRef,
+      where("favourites", "array-contains", userEmail)
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const courses = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFavoriteCourses(courses);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error fetching favorite courses:", error);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [userEmail]);
+
 
   if (loading) {
     return <ActivityIndicator size="large" color="blue" style={{ marginTop: 20 }} />;

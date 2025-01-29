@@ -59,6 +59,10 @@ const userposts = () => {
         },
       ]);
   };
+
+  const onUpdateCourse=async(docId)=>{
+
+  }
   
 
   return (
@@ -88,7 +92,7 @@ const userposts = () => {
                 flexDirection:'column'
             }}>
         
-          <Pressable style={styles.deleteButton}>
+          <Pressable style={styles.deleteButton} onPress={()=>onUpdateCourse(item?.id)}>
           <Text style={{
                 fontFamily:'outfit',
                 textAlign:'center',
